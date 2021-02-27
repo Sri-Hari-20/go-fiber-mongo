@@ -18,14 +18,14 @@ func SetupRoutes(app *fiber.App) {
     api.Post("/add", v1.AddTodo)
 
     // Get a todo
-    api.Get("/getOne", v1.GetOne)
+    api.Get("/getOne/:id", v1.GetOne)
     // Get all todos by user
     api.Get("/getAll", v1.GetAll)
 
     // Update a todo
-    api.Put("/updateOne", v1.UpdateOne)
+    api.Put("/updateOne/:id", v1.UpdateOne)
 
     // Delete a todo
-    api.Delete("/deleteOne", v1.DeleteOne)
+    api.Delete("/deleteOne/:id", v1.DeleteOne)
     api.Delete("/deleteMultiple", v1.DeleteMultiple)
 }

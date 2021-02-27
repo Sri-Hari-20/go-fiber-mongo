@@ -9,7 +9,7 @@ type ToDo struct {
     Title string `bson:"title,omitempty"`
     Description string `bson:"desc,omitempty"`
     CreatedBy string `bson:"by,omitempty"`
-    CreatedOn string `bson:on,emitempty`
+    CreatedOn int64 `bson:"on,emitempty"`
 }
 
 type ToDos struct {

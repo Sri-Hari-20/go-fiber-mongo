@@ -4,22 +4,20 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"time"
 
 	"ToDoList/config"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/readpref"
 )
 
-var collection *mongo.Collection
+var Collection *mongo.Collection
+var Client *mongo.Client
 
 func Connect() error {
     var err error
     var connectionString string
-
-    ctx, cancelFn := context.WithTimeout(context.Background(), 10*time.Second)
-    defer cancelFn()
 
     // Load credentials
     dbHost := config.Config("DB_HOST")
@@ -38,15 +36,20 @@ func Connect() error {
 
     log.Println("Connection String: " + connectionString)
 
-    client, err:= mongo.Connect(ctx, options.Client().ApplyURI(connectionString))
-
+    // Create a new Client
+    Client, err = mongo.Connect(context.TODO(), options.Client().ApplyURI(connectionString))
     if err != nil {
+        log.Fatalln("Connect:", err)
         return err
     }
-    defer client.Disconnect(ctx)
 
-    db := client.Database(dbName)
-    collection = db.Collection(collName)
+    // Test DB connection by pinging
+    if err := Client.Ping(context.TODO(), readpref.Primary()); err != nil {
+        log.Fatalln("Ping:", err)
+        return err
+    }
+
+    Collection = Client.Database(dbName).Collection(collName)
 
     log.Println("Opened database connection and loaded collection")
     
