@@ -18,7 +18,8 @@ func Connect() error {
     var err error
     var connectionString string
 
-    ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+    ctx, cancelFn := context.WithTimeout(context.Background(), 10*time.Second)
+    defer cancelFn()
 
     // Load credentials
     dbHost := config.Config("DB_HOST")
