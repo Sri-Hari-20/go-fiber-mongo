@@ -13,5 +13,5 @@ type ToDo struct {
 }
 
 type ToDos struct {
-    ToDos []ToDo `json: ToDos`
+    ToDos []ToDo `json: "todos"`
 }
