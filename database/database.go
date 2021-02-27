@@ -35,6 +35,8 @@ func Connect() error {
         connectionString = fmt.Sprintf("mongodb://%s:%s@%s:%s",dbUser,dbPass,dbHost,dbPort)
     }
 
+    log.Println("Connection String: " + connectionString)
+
     client, err:= mongo.Connect(ctx, options.Client().ApplyURI(connectionString))
 
     if err != nil {
