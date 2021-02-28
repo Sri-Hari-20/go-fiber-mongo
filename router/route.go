@@ -20,7 +20,7 @@ func SetupRoutes(app *fiber.App) {
     // Get a todo
     api.Get("/getOne/:id", v1.GetOne)
     // Get all todos by user
-    api.Get("/getAll", v1.GetAll)
+    api.Get("/getAll/:user", v1.GetAll)
 
     // Update a todo
     api.Put("/updateOne/:id", v1.UpdateOne)
