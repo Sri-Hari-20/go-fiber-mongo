@@ -17,7 +17,7 @@ type ToDos struct {
     ToDos []ToDo `json: "todos"`
 }
 
-func PrepareBsonTodo (newToDo ToDo) bson.M {
+func PrepareBsonUpdateTodo (newToDo ToDo) bson.M {
     bsonData := bson.M{}
 
     if newToDo.Title != "" {

@@ -42,7 +42,7 @@ func UpdateOne(ctx *fiber.Ctx) error {
     }
 
     // Get the bson.M that is required to send
-    updateBson := model.PrepareBsonTodo(newToDo)
+    updateBson := model.PrepareBsonUpdateTodo(newToDo)
 
     log.Println(updateBson)
 
