@@ -12,10 +12,10 @@ import (
 
 func AddTodo(ctx *fiber.Ctx) error {
     // Create a new instance
-    toDo := new(model.ToDo)
+    toDo := model.ToDo{}
 
     // Parse POST data
-    if err := ctx.BodyParser(toDo); err != nil {
+    if err := ctx.BodyParser(&toDo); err != nil {
         log.Fatalln("Wrong data format received from client")
         return ctx.Status(400).JSON(&fiber.Map{
             "success" : false,
@@ -38,6 +38,6 @@ func AddTodo(ctx *fiber.Ctx) error {
 
     return ctx.Status(200).JSON(&fiber.Map{
         "success" : true,
-        "message" : insertResult.InsertedID,
+        "data" : insertResult.InsertedID,
     })
 }

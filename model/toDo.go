@@ -1,6 +1,7 @@
 package model
 
 import (
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -14,4 +15,20 @@ type ToDo struct {
 
 type ToDos struct {
     ToDos []ToDo `json: "todos"`
+}
+
+func PrepareBsonTodo (newToDo ToDo) bson.M {
+    bsonData := bson.M{}
+
+    if newToDo.Title != "" {
+        bsonData["title"] = newToDo.Title
+    }
+
+    if newToDo.Description != "" {
+        bsonData["desc"] = newToDo.Description
+    }
+
+    preparedBson := bson.M{"$set" : bsonData}
+
+    return preparedBson
 }
