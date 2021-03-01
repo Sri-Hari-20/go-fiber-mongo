@@ -44,8 +44,6 @@ func UpdateOne(ctx *fiber.Ctx) error {
     // Get the bson.M that is required to send
     updateBson := model.PrepareBsonUpdateTodo(newToDo)
 
-    log.Println(updateBson)
-
     result, err := database.Collection.UpdateOne(context.TODO(), bson.M{"_id" : idHex}, updateBson)
 
     if err != nil {
