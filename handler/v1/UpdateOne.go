@@ -13,21 +13,10 @@ import (
 
 func UpdateOne(ctx *fiber.Ctx) error {
     id := ctx.Params("id")
-    currentToDo := model.ToDo{}
 
     idHex, err := primitive.ObjectIDFromHex(id)
     if err != nil {
         log.Fatalln("Hex conversion:", err)
-    }
-
-    // Get the current ToDo information
-    err = database.Collection.FindOne(context.TODO(), bson.M{"_id" :  idHex}).Decode(&currentToDo)
-    if err != nil {
-        log.Fatalln("UpdateOne:", err)
-        ctx.Status(500).JSON(&fiber.Map{
-            "success" : false,
-            "message" : err,
-        })
     }
 
     newToDo := model.ToDo{}
