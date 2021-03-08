@@ -27,7 +27,6 @@ func AddTodo(ctx *fiber.Ctx) error {
 
     // Insert to DB
     insertResult, err := database.Collection.InsertOne(context.Background(), toDo)
-
     if err != nil {
         log.Fatalln("Insert:", err)
         return ctx.Status(500).JSON(&fiber.Map{

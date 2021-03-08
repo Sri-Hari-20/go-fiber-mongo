@@ -14,15 +14,15 @@ import (
 func GetAll(ctx *fiber.Ctx) error {
     user := ctx.Params("user")
     user, err := url.QueryUnescape(user)
-    toDos := model.ToDos{}
-
     if err != nil {
         log.Fatalln("URI Decode:", err)
-        return ctx.Status(500).JSON(&fiber.Map{
+        return ctx.Status(400).JSON(&fiber.Map{
             "success" : false,
             "message" : err,
         })
     }
+
+    toDos := model.ToDos{}
 
     cursor, err := database.Collection.Find(context.TODO(), bson.M{"by" : user})
     if err != nil {
@@ -33,24 +33,16 @@ func GetAll(ctx *fiber.Ctx) error {
         })
     }
 
-    // Iterate through cursor
-    for cursor.Next(context.TODO()) {
-        toDo := model.ToDo{}
-        err = cursor.Decode(&toDo)
-
-        if err != nil {
-            log.Fatalln("Cursor access:", err)
-            return ctx.Status(500).JSON(&fiber.Map{
-                "success" : false,
-                "message" : err,
-            })
-        }
-
-        toDos.ToDos = append(toDos.ToDos, toDo)
-    }
-
     if err := cursor.Err(); err != nil {
         log.Fatal("Cursor failure:", err)
+        return ctx.Status(500).JSON(&fiber.Map{
+            "success" : false,
+            "message" : err,
+        })
+    }
+
+    if err = cursor.All(context.TODO(), &toDos.ToDos); err != nil {
+        log.Fatalln("Cursor decode fail:", err)
         return ctx.Status(500).JSON(&fiber.Map{
             "success" : false,
             "message" : err,

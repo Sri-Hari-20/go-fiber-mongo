@@ -17,6 +17,10 @@ func UpdateOne(ctx *fiber.Ctx) error {
     idHex, err := primitive.ObjectIDFromHex(id)
     if err != nil {
         log.Fatalln("Hex conversion:", err)
+        ctx.Status(500).JSON(&fiber.Map{
+            "success" : false,
+            "message" : err,
+        })
     }
 
     newToDo := model.ToDo{}

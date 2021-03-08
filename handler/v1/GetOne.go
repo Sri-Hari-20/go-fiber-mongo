@@ -18,6 +18,10 @@ func GetOne(ctx *fiber.Ctx) error {
     idHex, err := primitive.ObjectIDFromHex(id)
     if err != nil {
         log.Fatalln("Hex conversion:", err)
+        ctx.Status(500).JSON(&fiber.Map{
+            "success" : false,
+            "message" : err,
+        })
     }
 
     err = database.Collection.FindOne(context.TODO(), bson.M{"_id" :  idHex}).Decode(&toDo)
