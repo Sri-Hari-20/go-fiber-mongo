@@ -6,7 +6,7 @@ Fiber is a quickly growing super-fast backend framework, mainly written in golan
 
 This is a simple todo app, with basic CRUD functionality such as insertion, reading one/many, updation, deletion of one/many emulating basic operations needed by majority of DB based applications for easier adaptation.
 
-## Organization:
+## Project Structure:
 
 ### 1. config:
 
